@@ -5,35 +5,40 @@ namespace Tanks
 {
     internal class Tank
     {
-        private readonly Texture2D _texture;
         private readonly Color _color = Color.White;
+        private readonly Texture2D _texture;
+        private readonly float _width;
+        private readonly float _height;
+        private readonly Rectangle _sourceRectangle;
 
-        private Rectangle _box;
-        private Vector2 _position = new Vector2(0, 0);
+        private Vector2 _position;
 
-        public Tank(int width, int height, Texture2D texture)
+        public Tank(Texture2D texture, float startX, float startY, float scale)
         {
             _texture = texture;
-            _box = new Rectangle((int)_position.X, (int)_position.Y, width, height);
+            _width = texture.Width * scale;
+            _height = texture.Height * scale;
+            _sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+
+            _position = new Vector2(startX, startY);
         }
 
-        public Tank(int width, int height, Texture2D texture, Color color)
+        public Vector2 Position => _position;
+
+        public Rectangle Box => new Rectangle((int)_position.X, (int)_position.Y, (int)_width, (int)_height);
+
+        public void Draw(SpriteBatch spriteBatch)
         {
-            _texture = texture;
-            _box = new Rectangle((int)_position.X, (int)_position.Y, width, height);
-            _color = color;
+            spriteBatch.Draw(
+                _texture,
+                Box,
+                _sourceRectangle,
+                _color);
         }
 
-        public Rectangle Box => _box;
-
-        public Texture2D Texture => _texture;
-
-        public Color Color => _color;
-
-        public Vector2 Position
+        public void Move(Vector2 movement)
         {
-            get { return _position; }
-            set { _position = value; _box.X = (int)value.X; _box.Y = (int)value.Y; }
+            _position += movement;
         }
     }
 }

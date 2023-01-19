@@ -18,6 +18,10 @@ namespace Tanks
         SpriteFont Font;
         Tank Tank;
 
+        Texture2D Shell;
+        Vector2 ShellPosition;
+        bool ShellExists;
+
         public TanksGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,7 +46,9 @@ namespace Tanks
             // TODO: use this.Content to load your game content here
             Background = Content.Load<Texture2D>("background");
             Font = Content.Load<SpriteFont>("defaultFont");
-            Tank = new Tank(50, 100, Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"));
+
+            Tank = new Tank(Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"), 0, 0, 0.5f);
+            Shell = Content.Load<Texture2D>("Light_Shell");
         }
 
         protected override void Update(GameTime gameTime)
@@ -58,25 +64,41 @@ namespace Tanks
 
             if (keyState.IsKeyDown(Keys.Right))
             {
-                movement.X += 1;
+                movement.X += 2;
             }
 
             if (keyState.IsKeyDown(Keys.Left))
             {
-                movement.X -= 1;
+                movement.X -= 2;
             }
 
             if (keyState.IsKeyDown(Keys.Up))
             {
-                movement.Y -= 1;
+                movement.Y -= 2;
             }
 
             if (keyState.IsKeyDown(Keys.Down))
             {
-                movement.Y += 1;
+                movement.Y += 2;
             }
 
-            Tank.Position += movement;
+            if (keyState.IsKeyDown(Keys.Space) && !ShellExists)
+            {
+                ShellPosition = new Vector2(Tank.Box.Center.X - Shell.Width / 2, Tank.Box.Bottom - Shell.Height / 2);
+                ShellExists = true;
+            }
+
+            if (ShellExists)
+            {
+                ShellPosition.Y += 10;
+
+                if (ShellPosition.Y > _screenHeight)
+                {
+                    ShellExists = false;
+                }
+            }
+
+            Tank.Move(movement);
 
             base.Update(gameTime);
         }
@@ -90,8 +112,13 @@ namespace Tanks
 
             // Draw
             _spriteBatch.Draw(Background, _backgroundSize, Color.White);
-            _spriteBatch.Draw(Tank.Texture, Tank.Box, Tank.Color);
-            _spriteBatch.DrawString(Font, "Tanks very much!", new Vector2(5, _screenHeight-20), Color.Aquamarine);
+            Tank.Draw(_spriteBatch);
+            _spriteBatch.DrawString(Font, "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
+
+            if (ShellExists)
+            {
+                _spriteBatch.Draw(Shell, ShellPosition, Color.White);
+            }
 
             _spriteBatch.End();
 
