@@ -61,33 +61,13 @@ namespace Tanks
                 Tank = new Tank(_textures["tank"], 0, 0, 0.5f);
             }
 
-            Vector2 tankMovement = Vector2.Zero;
-
             var keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.D))
-            {
-                tankMovement.X += 2;
-            }
-
-            if (keyState.IsKeyDown(Keys.A))
-            {
-                tankMovement.X -= 2;
-            }
-
-            if (keyState.IsKeyDown(Keys.W))
-            {
-                tankMovement.Y -= 2;
-            }
-
-            if (keyState.IsKeyDown(Keys.S))
-            {
-                tankMovement.Y += 2;
-            }
+            Tank.UpdatePosition(keyState);
 
             if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                Shell = new Shell(_textures["shell"], Tank.Box.Center.X, Tank.Box.Bottom, 0.5f);
+                Shell = new Shell(_textures["shell"], Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f);
             }
 
             if (Shell != null)
@@ -99,8 +79,6 @@ namespace Tanks
                     Shell = null;
                 }
             }
-
-            Tank.Move(tankMovement);
 
             base.Update(gameTime);
         }

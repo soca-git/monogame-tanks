@@ -1,44 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Tanks
 {
-    internal class Tank
+    internal class Tank : Sprite
     {
-        private readonly Color _color = Color.White;
-        private readonly Texture2D _texture;
-        private readonly float _width;
-        private readonly float _height;
-        private readonly Rectangle _sourceRectangle;
-
-        private Vector2 _position;
+        private const float _speed = 2;
 
         public Tank(Texture2D texture, float startX, float startY, float scale)
+            : base(texture, startX, startY, scale)
         {
-            _texture = texture;
-            _width = texture.Width * scale;
-            _height = texture.Height * scale;
-            _sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
-
-            _position = new Vector2(startX, startY);
         }
 
-        public Vector2 Position => _position;
-
-        public Rectangle Box => new Rectangle((int)_position.X, (int)_position.Y, (int)_width, (int)_height);
-
-        public void Draw(SpriteBatch spriteBatch)
+        public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
+            : base(texture, startX, startY, scale, color)
         {
-            spriteBatch.Draw(
-                _texture,
-                Box,
-                _sourceRectangle,
-                _color);
         }
 
-        public void Move(Vector2 movement)
+        public override void Update(GameTime gameTime)
         {
-            _position += movement;
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdatePosition(KeyboardState keyState)
+        {
+            _position += KeyboardController.WASDMove(keyState, _speed);
         }
     }
 }
