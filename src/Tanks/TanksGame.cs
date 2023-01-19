@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Tanks
 {
@@ -11,16 +12,13 @@ namespace Tanks
 
         private const int _screenWidth = 800;
         private const int _screenHeight = 600;
+        private readonly Rectangle _backgroundSize = new Rectangle(0, 0, _screenWidth, _screenHeight);
 
-        private Rectangle _backgroundSize = new Rectangle(0, 0, _screenWidth, _screenHeight);
+        private readonly Dictionary<string, SpriteFont> _fonts = new Dictionary<string, SpriteFont>();
+        private readonly Dictionary<string, Texture2D> _textures = new Dictionary<string, Texture2D>();
 
-        Texture2D Background;
-        SpriteFont Font;
         Tank Tank;
-
-        Texture2D Shell;
-        Vector2 ShellPosition;
-        bool ShellExists;
+        Shell Shell;
 
         public TanksGame()
         {
@@ -44,11 +42,11 @@ namespace Tanks
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Background = Content.Load<Texture2D>("background");
-            Font = Content.Load<SpriteFont>("defaultFont");
+            _fonts.Add("default", Content.Load<SpriteFont>("defaultFont"));
 
-            Tank = new Tank(Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"), 0, 0, 0.5f);
-            Shell = Content.Load<Texture2D>("Light_Shell");
+            _textures.Add("background", Content.Load<Texture2D>("background"));
+            _textures.Add("tank", Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"));
+            _textures.Add("shell", Content.Load<Texture2D>("Light_Shell"));
         }
 
         protected override void Update(GameTime gameTime)
@@ -56,49 +54,53 @@ namespace Tanks
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             // TODO: Add your update logic here
-            Vector2 movement = Vector2.Zero;
+
+            if (Tank == null)
+            {
+                Tank = new Tank(_textures["tank"], 0, 0, 0.5f);
+            }
+
+            Vector2 tankMovement = Vector2.Zero;
 
             var keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.Right))
+            if (keyState.IsKeyDown(Keys.D))
             {
-                movement.X += 2;
+                tankMovement.X += 2;
             }
 
-            if (keyState.IsKeyDown(Keys.Left))
+            if (keyState.IsKeyDown(Keys.A))
             {
-                movement.X -= 2;
+                tankMovement.X -= 2;
             }
 
-            if (keyState.IsKeyDown(Keys.Up))
+            if (keyState.IsKeyDown(Keys.W))
             {
-                movement.Y -= 2;
+                tankMovement.Y -= 2;
             }
 
-            if (keyState.IsKeyDown(Keys.Down))
+            if (keyState.IsKeyDown(Keys.S))
             {
-                movement.Y += 2;
+                tankMovement.Y += 2;
             }
 
-            if (keyState.IsKeyDown(Keys.Space) && !ShellExists)
+            if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                ShellPosition = new Vector2(Tank.Box.Center.X - Shell.Width / 2, Tank.Box.Bottom - Shell.Height / 2);
-                ShellExists = true;
+                Shell = new Shell(_textures["shell"], Tank.Box.Center.X, Tank.Box.Bottom, 0.5f);
             }
 
-            if (ShellExists)
+            if (Shell != null)
             {
-                ShellPosition.Y += 10;
+                Shell.Update(gameTime);
 
-                if (ShellPosition.Y > _screenHeight)
+                if (Shell.CurrentPosition().Y > _screenHeight)
                 {
-                    ShellExists = false;
+                    Shell = null;
                 }
             }
 
-            Tank.Move(movement);
+            Tank.Move(tankMovement);
 
             base.Update(gameTime);
         }
@@ -111,14 +113,19 @@ namespace Tanks
             _spriteBatch.Begin();
 
             // Draw
-            _spriteBatch.Draw(Background, _backgroundSize, Color.White);
-            Tank.Draw(_spriteBatch);
-            _spriteBatch.DrawString(Font, "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
+            _spriteBatch.Draw(_textures["background"], _backgroundSize, Color.White);
 
-            if (ShellExists)
+            if (Tank != null)
             {
-                _spriteBatch.Draw(Shell, ShellPosition, Color.White);
+                Tank.Draw(_spriteBatch);
             }
+
+            if (Shell != null)
+            {
+                Shell.Draw(_spriteBatch);
+            }
+
+            _spriteBatch.DrawString(_fonts["default"], "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
 
             _spriteBatch.End();
 
