@@ -67,14 +67,14 @@ namespace Tanks
 
             if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                Shell = new Shell(_textures["shell"], Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f);
+                Shell = new Shell(_textures["shell"], Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f, 400);
             }
 
             if (Shell != null)
             {
                 Shell.Update(gameTime);
 
-                if (Shell.CurrentPosition().Y > _screenHeight)
+                if (Shell.HasExploded())
                 {
                     Shell = null;
                 }
