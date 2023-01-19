@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
+using Tanks.ContentManagers;
 
 namespace Tanks
 {
@@ -15,11 +14,6 @@ namespace Tanks
         private const int _screenWidth = 800;
         private const int _screenHeight = 600;
         private readonly Rectangle _backgroundSize = new Rectangle(0, 0, _screenWidth, _screenHeight);
-
-        private readonly Dictionary<string, SpriteFont> _fonts = new Dictionary<string, SpriteFont>();
-        private readonly Dictionary<string, Texture2D> _textures = new Dictionary<string, Texture2D>();
-        private readonly Dictionary<string, SoundEffect> _soundEffects = new Dictionary<string, SoundEffect>();
-        private readonly Dictionary<string, Song> _music = new Dictionary<string, Song>();
 
         Tank Tank;
         Shell Shell;
@@ -47,20 +41,18 @@ namespace Tanks
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _fonts.Add("default", Content.Load<SpriteFont>("defaultFont"));
+            FontsManager.Add("default", "defaultFont", Content);
 
-            _textures.Add("background", Content.Load<Texture2D>("background"));
-            _textures.Add("tank", Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"));
-            _textures.Add("shell", Content.Load<Texture2D>("Light_Shell"));
-            _textures.Add("explosion", Content.Load<Texture2D>("Explosion_C"));
+            TexturesManager.Add("background", "background", Content);
+            TexturesManager.Add("tank", "Pz.Kpfw.IV-G_preview", Content);
+            TexturesManager.Add("shell", "Light_Shell", Content);
+            TexturesManager.Add("explosion", "Explosion_C", Content);
 
-            _soundEffects.Add("explosion", Content.Load<SoundEffect>("explosion04"));
+            SoundEffectsManager.Add("explosion", "explosion04", Content);
 
-            _music.Add("background", Content.Load<Song>("Brothers In Arms March (128 kbps)"));
+            SongsManager.Add("background", "Brothers In Arms March (128 kbps)", Content);
 
-            MediaPlayer.Play(_music["background"]);
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume *= 0.1f;
+            LoadMediaPlayer();
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,7 +64,7 @@ namespace Tanks
 
             if (Tank == null)
             {
-                Tank = new Tank(_textures["tank"], 0, 0, 0.5f);
+                Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f);
             }
 
             var keyState = Keyboard.GetState();
@@ -81,7 +73,7 @@ namespace Tanks
 
             if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                Shell = new Shell(_textures["shell"], Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f, 400);
+                Shell = new Shell(TexturesManager.Get("shell"), Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f, 400);
             }
 
             if (Shell != null)
@@ -90,8 +82,8 @@ namespace Tanks
 
                 if (Shell.HasExploded())
                 {
-                    Explosion = new Explosion(_textures["explosion"], Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f);
-                    _soundEffects["explosion"].Play();
+                    Explosion = new Explosion(TexturesManager.Get("explosion"), Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f);
+                    SoundEffectsManager.Get("explosion").Play();
                     Shell = null;
                 }
             }
@@ -107,7 +99,7 @@ namespace Tanks
             _spriteBatch.Begin();
 
             // Draw
-            _spriteBatch.Draw(_textures["background"], _backgroundSize, Color.White);
+            _spriteBatch.Draw(TexturesManager.Get("background"), _backgroundSize, Color.White);
 
             if (Tank != null)
             {
@@ -124,11 +116,18 @@ namespace Tanks
                 Explosion.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(_fonts["default"], "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
+            _spriteBatch.DrawString(FontsManager.Get("default"), "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void LoadMediaPlayer()
+        {
+            MediaPlayer.Play(SongsManager.Get("background"));
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume *= 0.1f;
         }
     }
 }
