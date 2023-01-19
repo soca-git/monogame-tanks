@@ -44,6 +44,12 @@
 /processorParam:TextureFormat=Color
 /build:Explosion_C.png
 
+#begin explosion04.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:explosion04.wav
+
 #begin Light_Shell.png
 /importer:TextureImporter
 /processor:TextureProcessor

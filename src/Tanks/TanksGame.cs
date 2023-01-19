@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Tanks
 
         private readonly Dictionary<string, SpriteFont> _fonts = new Dictionary<string, SpriteFont>();
         private readonly Dictionary<string, Texture2D> _textures = new Dictionary<string, Texture2D>();
+        private readonly Dictionary<string, SoundEffect> _sounds = new Dictionary<string, SoundEffect>();
 
         Tank Tank;
         Shell Shell;
@@ -49,6 +51,8 @@ namespace Tanks
             _textures.Add("tank", Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"));
             _textures.Add("shell", Content.Load<Texture2D>("Light_Shell"));
             _textures.Add("explosion", Content.Load<Texture2D>("Explosion_C"));
+
+            _sounds.Add("explosion", Content.Load<SoundEffect>("explosion04"));
         }
 
         protected override void Update(GameTime gameTime)
@@ -79,6 +83,7 @@ namespace Tanks
                 if (Shell.HasExploded())
                 {
                     Explosion = new Explosion(_textures["explosion"], Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f);
+                    _sounds["explosion"].Play();
                     Shell = null;
                 }
             }
