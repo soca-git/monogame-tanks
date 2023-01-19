@@ -14,7 +14,6 @@ namespace Tanks
         public Shell(Texture2D texture, float startX, float startY, float scale, float range)
             : base(texture, startX, startY, scale)
         {
-            _position -= new Vector2(texture.Width * scale / 2, texture.Height * scale / 2);
             _startPosition = _position;
             _range = range;
         }
@@ -22,7 +21,6 @@ namespace Tanks
         public Shell(Texture2D texture, float startX, float startY, float scale, Color color, float range)
             : base(texture, startX, startY, scale, color)
         {
-            _position -= new Vector2(texture.Width * scale / 2, texture.Height * scale / 2);
             _startPosition = _position;
             _range = range;
         }
