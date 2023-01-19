@@ -19,6 +19,7 @@ namespace Tanks
 
         Tank Tank;
         Shell Shell;
+        Explosion Explosion;
 
         public TanksGame()
         {
@@ -47,6 +48,7 @@ namespace Tanks
             _textures.Add("background", Content.Load<Texture2D>("background"));
             _textures.Add("tank", Content.Load<Texture2D>("Pz.Kpfw.IV-G_preview"));
             _textures.Add("shell", Content.Load<Texture2D>("Light_Shell"));
+            _textures.Add("explosion", Content.Load<Texture2D>("Explosion_C"));
         }
 
         protected override void Update(GameTime gameTime)
@@ -76,6 +78,7 @@ namespace Tanks
 
                 if (Shell.HasExploded())
                 {
+                    Explosion = new Explosion(_textures["explosion"], Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f);
                     Shell = null;
                 }
             }
@@ -101,6 +104,11 @@ namespace Tanks
             if (Shell != null)
             {
                 Shell.Draw(_spriteBatch);
+            }
+
+            if (Explosion != null)
+            {
+                Explosion.Draw(_spriteBatch);
             }
 
             _spriteBatch.DrawString(_fonts["default"], "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
