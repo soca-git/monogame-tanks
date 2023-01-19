@@ -53,7 +53,9 @@ namespace Tanks
 
             SongsManager.Add("background", "Brothers In Arms March (128 kbps)", Content);
 
-            LoadMediaPlayer();
+            MediaPlayer.Play(SongsManager.Get("background"));
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume *= 0.1f;
         }
 
         protected override void Update(GameTime gameTime)
@@ -132,13 +134,6 @@ namespace Tanks
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        private void LoadMediaPlayer()
-        {
-            MediaPlayer.Play(SongsManager.Get("background"));
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume *= 0.1f;
         }
     }
 }
