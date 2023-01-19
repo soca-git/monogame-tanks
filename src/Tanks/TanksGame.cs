@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Tanks.ContentManagers;
+using Tanks.Sprites;
 
 namespace Tanks
 {
@@ -83,8 +84,18 @@ namespace Tanks
                 if (Shell.HasExploded())
                 {
                     Explosion = new Explosion(TexturesManager.Get("explosion"), Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f);
-                    SoundEffectsManager.Get("explosion").Play();
+                    Explosion.Explode(gameTime);
                     Shell = null;
+                }
+            }
+
+            if (Explosion != null)
+            {
+                Explosion.Update(gameTime);
+
+                if (Explosion.HasExploded())
+                {
+                    Explosion = null;
                 }
             }
 

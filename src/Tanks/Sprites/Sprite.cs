@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Tanks
+namespace Tanks.Sprites
 {
     internal abstract class Sprite : ISprite
     {
@@ -20,7 +20,7 @@ namespace Tanks
             _height = texture.Height * scale;
             _sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 
-            _position = new Vector2(startX - (texture.Width * scale / 2), startY - (texture.Height * scale / 2));
+            _position = new Vector2(startX - texture.Width * scale / 2, startY - texture.Height * scale / 2);
         }
 
         public Sprite(Texture2D texture, float startX, float startY, float scale, Color color)
@@ -31,7 +31,7 @@ namespace Tanks
             _height = texture.Height * scale;
             _sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 
-            _position = new Vector2(startX - (texture.Width * scale / 2), startY - (texture.Height * scale / 2));
+            _position = new Vector2(startX - texture.Width * scale / 2, startY - texture.Height * scale / 2);
         }
 
         public Rectangle CurrentBox() => new Rectangle((int)_position.X, (int)_position.Y, (int)_width, (int)_height);

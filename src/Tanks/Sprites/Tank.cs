@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Tanks
+namespace Tanks.Sprites
 {
     internal class Tank : Sprite
     {

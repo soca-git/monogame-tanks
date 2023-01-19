@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace Tanks
+namespace Tanks.Sprites
 {
     internal class Shell : Sprite
     {
