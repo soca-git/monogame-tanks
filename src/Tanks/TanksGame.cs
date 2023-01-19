@@ -52,6 +52,31 @@ namespace Tanks
 
 
             // TODO: Add your update logic here
+            Vector2 movement = Vector2.Zero;
+
+            var keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                movement.X += 1;
+            }
+
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                movement.X -= 1;
+            }
+
+            if (keyState.IsKeyDown(Keys.Up))
+            {
+                movement.Y -= 1;
+            }
+
+            if (keyState.IsKeyDown(Keys.Down))
+            {
+                movement.Y += 1;
+            }
+
+            Tank.Position += movement;
 
             base.Update(gameTime);
         }
