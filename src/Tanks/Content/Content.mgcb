@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:background.png
 
+#begin defaultFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:defaultFont.spritefont
+
 #begin Pz.Kpfw.IV-G_preview.png
 /importer:TextureImporter
 /processor:TextureProcessor
