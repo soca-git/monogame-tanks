@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Tanks.Utils;
 
 namespace Tanks.Sprites
 {
@@ -33,9 +34,11 @@ namespace Tanks.Sprites
 
         public Vector2 CurrentPosition() => _position;
 
+        public float CurrentOrientation() => _orientation;
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _position, null, _color, _orientation, _origin, _scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(_texture, _position, null, _color, _orientation.ToRadians(), _origin, _scale, SpriteEffects.None, 0);
         }
 
         public abstract void Update(GameTime gameTime);
