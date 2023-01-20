@@ -7,14 +7,9 @@ namespace Tanks.Sprites
     internal class Tank : Sprite
     {
         private const float _speed = 2;
+        private const float _traversalSpeed = 0.02f;
 
-        public Tank(Texture2D texture, float startX, float startY, float scale)
-            : base(texture, startX, startY, scale)
-        {
-        }
-
-        public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
-            : base(texture, startX, startY, scale, color)
+        public Tank(Texture2D texture, float startX, float startY, float scale, Color color) : base(texture, startX, startY, scale, color)
         {
         }
 
@@ -25,7 +20,8 @@ namespace Tanks.Sprites
 
         public void UpdatePosition(KeyboardState keyState)
         {
-            _position += KeyboardController.WASDMove(keyState, _speed);
+            _orientation += KeyboardController.ADTurn(keyState, _traversalSpeed);
+            _position += KeyboardController.WSMove(keyState, _speed);
         }
     }
 }

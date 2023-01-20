@@ -31,5 +31,37 @@ namespace Tanks
 
             return displacement;
         }
+
+        public static Vector2 WSMove(KeyboardState keyState, float speed)
+        {
+            var displacement = Vector2.Zero;
+
+            if (keyState.IsKeyDown(Keys.W))
+            {
+                displacement.Y -= speed;
+            }
+
+            if (keyState.IsKeyDown(Keys.S))
+            {
+                displacement.Y += speed;
+            }
+
+            return displacement;
+        }
+
+        public static float ADTurn(KeyboardState keyState, float traversalSpeed)
+        {
+            if (keyState.IsKeyDown(Keys.D))
+            {
+                return traversalSpeed;
+            }
+
+            if (keyState.IsKeyDown(Keys.A))
+            {
+                return -1 * traversalSpeed;
+            }
+
+            return 0;
+        }
     }
 }
