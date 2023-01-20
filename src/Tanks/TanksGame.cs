@@ -77,7 +77,7 @@ namespace Tanks
 
             if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                Shell = new Shell(TexturesManager.Get("shell"), Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f, Color.White, 400);
+                Shell = new Shell(TexturesManager.Get("shell"), Tank.CurrentPosition().X, Tank.CurrentPosition().Y, 0.5f, Color.White, 400, Tank.CurrentOrientation());
             }
 
             if (Shell != null)
