@@ -5,42 +5,37 @@ namespace Tanks.Sprites
 {
     internal abstract class Sprite : ISprite
     {
-        private readonly Texture2D _texture;
-        private readonly Color _color = Color.White;
-        private readonly float _width;
-        private readonly float _height;
-        private readonly Rectangle _sourceRectangle;
+        protected readonly Texture2D _texture;
+        protected readonly Color _color = Color.White;
+        protected readonly float _width;
+        protected readonly float _height;
+        protected readonly float _scale;
+        protected readonly Vector2 _origin;
 
         protected Vector2 _position;
-
-        public Sprite(Texture2D texture, float startX, float startY, float scale)
-        {
-            _texture = texture;
-            _width = texture.Width * scale;
-            _height = texture.Height * scale;
-            _sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
-
-            _position = new Vector2(startX - texture.Width * scale / 2, startY - texture.Height * scale / 2);
-        }
+        protected float _orientation;
+        
+        public Vector2 Origin => _origin;
 
         public Sprite(Texture2D texture, float startX, float startY, float scale, Color color)
         {
             _texture = texture;
-            _color = color;
             _width = texture.Width * scale;
             _height = texture.Height * scale;
-            _sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+            _scale = scale;
+            _color = color;
 
-            _position = new Vector2(startX - texture.Width * scale / 2, startY - texture.Height * scale / 2);
+            _position = new Vector2(startX, startY);
+            _origin = new Vector2(texture.Width / 2f, texture.Height / 2f); // Use original width & height!
         }
 
-        public Rectangle CurrentBox() => new Rectangle((int)_position.X, (int)_position.Y, (int)_width, (int)_height);
+        public Rectangle CurrentBox() => new Rectangle((int)(_position.X - _width / 2), (int)(_position.Y - _height / 2), (int)_width, (int)_height);
 
         public Vector2 CurrentPosition() => _position;
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, CurrentBox(), _sourceRectangle, _color);
+            spriteBatch.Draw(_texture, _position, null, _color, _orientation, _origin, _scale, SpriteEffects.None, 0);
         }
 
         public abstract void Update(GameTime gameTime);
