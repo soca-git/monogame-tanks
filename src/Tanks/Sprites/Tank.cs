@@ -9,7 +9,8 @@ namespace Tanks.Sprites
         private const float _speed = 2;
         private const float _traversalSpeed = 0.02f;
 
-        public Tank(Texture2D texture, float startX, float startY, float scale, Color color) : base(texture, startX, startY, scale, color)
+        public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
+            : base(texture, startX, startY, scale, color)
         {
         }
 
