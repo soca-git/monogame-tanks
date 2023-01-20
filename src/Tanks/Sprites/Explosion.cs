@@ -16,7 +16,6 @@ namespace Tanks.Sprites
         public Explosion(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
         {
-            OffsetPosition();
         }
 
         public override void Update(GameTime gameTime)
@@ -36,11 +35,6 @@ namespace Tanks.Sprites
         public bool HasExploded()
         {
             return _exploded;
-        }
-
-        private void OffsetPosition()
-        {
-            _position += new Vector2(30, 0);
         }
     }
 }
