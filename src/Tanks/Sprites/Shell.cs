@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace Tanks.Sprites
 {
@@ -10,13 +9,6 @@ namespace Tanks.Sprites
         private readonly float _range;
 
         private bool _exploded;
-
-        public Shell(Texture2D texture, float startX, float startY, float scale, float range)
-            : base(texture, startX, startY, scale)
-        {
-            _startPosition = _position;
-            _range = range;
-        }
 
         public Shell(Texture2D texture, float startX, float startY, float scale, Color color, float range)
             : base(texture, startX, startY, scale, color)

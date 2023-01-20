@@ -13,12 +13,6 @@ namespace Tanks.Sprites
         private TimeSpan _explosionStartTime;
         private bool _exploded;
 
-        public Explosion(Texture2D texture, float startX, float startY, float scale)
-            : base(texture, startX, startY, scale)
-        {
-            OffsetPosition();
-        }
-
         public Explosion(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
         {

@@ -48,6 +48,7 @@ namespace Tanks
             TexturesManager.Add("tank", "Pz.Kpfw.IV-G_preview", Content);
             TexturesManager.Add("shell", "Light_Shell", Content);
             TexturesManager.Add("explosion", "Explosion_C", Content);
+            TexturesManager.Add("marker", "Markup_01", Content);
 
             SoundEffectsManager.Add("explosion", "explosion04", Content);
 
@@ -67,7 +68,7 @@ namespace Tanks
 
             if (Tank == null)
             {
-                Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f);
+                Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
             }
 
             var keyState = Keyboard.GetState();
@@ -76,7 +77,7 @@ namespace Tanks
 
             if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                Shell = new Shell(TexturesManager.Get("shell"), Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f, 400);
+                Shell = new Shell(TexturesManager.Get("shell"), Tank.CurrentBox().Center.X, Tank.CurrentBox().Bottom, 0.5f, Color.White, 400);
             }
 
             if (Shell != null)
@@ -85,7 +86,7 @@ namespace Tanks
 
                 if (Shell.HasExploded())
                 {
-                    Explosion = new Explosion(TexturesManager.Get("explosion"), Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f);
+                    Explosion = new Explosion(TexturesManager.Get("explosion"), Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f, Color.White);
                     Explosion.Explode(gameTime);
                     Shell = null;
                 }
