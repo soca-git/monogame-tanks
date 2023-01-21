@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Tanks.ContentManagers;
 using Tanks.Utils;
 
 namespace Tanks.Sprites
@@ -11,7 +12,7 @@ namespace Tanks.Sprites
         private readonly Vector2 _startPosition;
         private readonly float _range;
 
-        private bool _exploded;
+        private Explosion _explosion;
 
         public Shell(Texture2D texture, float startX, float startY, float scale, Color color, float range, float orientation)
             : base(texture, startX, startY, scale, color)
@@ -23,29 +24,51 @@ namespace Tanks.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            _position += _shellSpeed * _orientation.ToVector2();
+            UpdatePosition();
+            Explode(gameTime);
+            UpdateExplosion(gameTime);
+        }
 
+        private void UpdatePosition()
+        {
+            if (_explosion == null)
+            {
+                _position += _shellSpeed * _orientation.ToVector2();
+            }
+        }
+
+        private void Explode(GameTime gameTime)
+        {
             var trajectory = CurrentPosition() - _startPosition;
 
-            if (trajectory.Length() > _range)
+            if (trajectory.Length() > _range && _explosion == null)
             {
-                Explode();
+                _explosion = new Explosion(TexturesManager.Get("explosion"), CurrentPosition().X, CurrentPosition().Y, 0.5f, Color.White);
+                _explosion.Explode(gameTime);
+            }
+        }
+
+        private void UpdateExplosion(GameTime gameTime)
+        {
+            if (_explosion != null)
+            {
+                _explosion.Update(gameTime);
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, _position, null, _color, _orientation.ToRadians() + 90f.ToRadians(), _origin, _scale, SpriteEffects.None, 0);
+
+            if (_explosion != null)
+            {
+                _explosion.Draw(spriteBatch);
+            }
         }
 
         public bool HasExploded()
         {
-            return _exploded;
-        }
-
-        private void Explode()
-        {
-            _exploded = true;
+            return _explosion != null && _explosion.HasExploded();
         }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Tanks.ContentManagers;
 using Tanks.Sprites;
-using Tanks.Utils;
 
 namespace Tanks
 {
@@ -13,13 +12,11 @@ namespace Tanks
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private const int _screenWidth = 800;
-        private const int _screenHeight = 600;
+        private const int _screenWidth = 1200;
+        private const int _screenHeight = 1000;
         private readonly Rectangle _backgroundSize = new Rectangle(0, 0, _screenWidth, _screenHeight);
 
         Tank Tank;
-        Shell Shell;
-        Explosion Explosion;
 
         public TanksGame()
         {
@@ -62,41 +59,14 @@ namespace Tanks
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 Exit();
+            }
 
             // TODO: Add your update logic here
-
-            if (Tank == null)
-            {
-                Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
-            }
-
+            Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
             Tank.Update(gameTime);
-
-
-
-            if (Shell != null)
-            {
-                Shell.Update(gameTime);
-
-                if (Shell.HasExploded())
-                {
-                    Explosion = new Explosion(TexturesManager.Get("explosion"), Shell.CurrentPosition().X, Shell.CurrentPosition().Y, 0.5f, Color.White);
-                    Explosion.Explode(gameTime);
-                    Shell = null;
-                }
-            }
-
-            if (Explosion != null)
-            {
-                Explosion.Update(gameTime);
-
-                if (Explosion.HasExploded())
-                {
-                    Explosion = null;
-                }
-            }
 
             base.Update(gameTime);
         }
@@ -114,11 +84,6 @@ namespace Tanks
             if (Tank != null)
             {
                 Tank.Draw(_spriteBatch);
-            }
-
-            if (Explosion != null)
-            {
-                Explosion.Draw(_spriteBatch);
             }
 
             _spriteBatch.DrawString(FontsManager.Get("default"), "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
