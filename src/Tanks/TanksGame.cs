@@ -72,16 +72,9 @@ namespace Tanks
                 Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
             }
 
-            var keyState = Keyboard.GetState();
+            Tank.Update(gameTime);
 
-            Tank.UpdatePosition(keyState);
 
-            if (keyState.IsKeyDown(Keys.Space) && Shell == null)
-            {
-                var orientation = Tank.CurrentOrientation().ToVector2();
-                var shellPosition = Tank.CurrentPosition() + 55 * orientation;
-                Shell = new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, Tank.CurrentOrientation());
-            }
 
             if (Shell != null)
             {
@@ -121,11 +114,6 @@ namespace Tanks
             if (Tank != null)
             {
                 Tank.Draw(_spriteBatch);
-            }
-
-            if (Shell != null)
-            {
-                Shell.Draw(_spriteBatch);
             }
 
             if (Explosion != null)

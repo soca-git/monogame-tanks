@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using Tanks.ContentManagers;
 using Tanks.Controllers;
 using Tanks.Utils;
 
@@ -10,7 +13,12 @@ namespace Tanks.Sprites
     {
         private const float _speed = 2;
         private const float _traversalSpeed = 1f;
+        private const float _reloadTime = 2;
+
         private readonly float _orientationOffset = -90f.ToRadians();
+
+        private readonly LinkedList<Shell> _firedRounds = new LinkedList<Shell>();
+        private TimeSpan _fireTime;
 
         public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
@@ -19,18 +27,64 @@ namespace Tanks.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            throw new System.NotImplementedException();
+            var keyState = Keyboard.GetState();
+
+            UpdatePosition(keyState);
+            FireRound(keyState, gameTime);
+            UpdateFiredRounds(gameTime);
         }
 
-        public void UpdatePosition(KeyboardState keyState)
+        private void UpdatePosition(KeyboardState keyState)
         {
             _orientation += KeyboardController.ADTurn(keyState, _traversalSpeed);
             _position += KeyboardController.WSMove(keyState, _speed) * _orientation.ToVector2();
         }
 
+        private void FireRound(KeyboardState keyState, GameTime gameTime)
+        {
+            if (keyState.IsKeyDown(Keys.Space) && gameTime.TotalGameTime.TotalSeconds > (_fireTime.TotalSeconds + _reloadTime))
+            {
+                _fireTime = gameTime.TotalGameTime;
+
+                var orientation = CurrentOrientation().ToVector2();
+                var shellPosition = CurrentPosition() + (5 + _height / 2) * orientation;
+
+                _firedRounds.AddFirst(new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, CurrentOrientation()));
+            }
+        }
+
+        private void UpdateFiredRounds(GameTime gameTime)
+        {
+            if (_firedRounds.Count > 0)
+            {
+                foreach (ISprite round in _firedRounds)
+                {
+                    round.Update(gameTime);
+                }
+
+                if (_firedRounds.Last.Value.HasExploded())
+                {
+                    _firedRounds.RemoveLast();
+                }
+            }
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, _position, null, _color, _orientation.ToRadians() + _orientationOffset, _origin, _scale, SpriteEffects.None, 0);
+
+            DrawFiredRounds(spriteBatch);
+        }
+
+        private void DrawFiredRounds(SpriteBatch spriteBatch)
+        {
+            if (_firedRounds.Count > 0)
+            {
+                foreach (ISprite round in _firedRounds)
+                {
+                    round.Draw(spriteBatch);
+                }
+            }
         }
     }
 }
