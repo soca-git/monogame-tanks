@@ -6,7 +6,7 @@ namespace Tanks.Sprites
 {
     internal class Shell : Sprite
     {
-        private const float _shellSpeed = 10;
+        private const float _shellSpeed = 15;
 
         private readonly Vector2 _startPosition;
         private readonly float _range;

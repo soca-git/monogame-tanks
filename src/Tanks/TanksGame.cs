@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Tanks.ContentManagers;
 using Tanks.Sprites;
+using Tanks.Utils;
 
 namespace Tanks
 {
@@ -77,7 +78,9 @@ namespace Tanks
 
             if (keyState.IsKeyDown(Keys.Space) && Shell == null)
             {
-                Shell = new Shell(TexturesManager.Get("shell"), Tank.CurrentPosition().X, Tank.CurrentPosition().Y, 0.5f, Color.White, 400, Tank.CurrentOrientation());
+                var orientation = Tank.CurrentOrientation().ToVector2();
+                var shellPosition = Tank.CurrentPosition() + 55 * orientation;
+                Shell = new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, Tank.CurrentOrientation());
             }
 
             if (Shell != null)
