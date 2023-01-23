@@ -68,6 +68,7 @@ namespace Tanks
 
             // TODO: Add your update logic here
             Tank.Update(gameTime);
+            SpritesManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -86,6 +87,7 @@ namespace Tanks
             {
                 Tank.Draw(_spriteBatch);
             }
+            SpritesManager.Draw(_spriteBatch);
 
             _spriteBatch.DrawString(FontsManager.Get("default"), "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
 
