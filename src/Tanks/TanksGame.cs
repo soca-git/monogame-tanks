@@ -47,6 +47,7 @@ namespace Tanks
             TexturesManager.Add("shell", "Light_Shell", Content);
             TexturesManager.Add("explosion", "Explosion_C", Content);
             TexturesManager.Add("marker", "Markup_01", Content);
+            TexturesManager.Add("barrel", "Barell_01", Content);
 
             SoundEffectsManager.Add("explosion", "explosion04", Content);
 
@@ -57,6 +58,11 @@ namespace Tanks
             MediaPlayer.Volume *= 0.1f;
 
             Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
+
+            SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 400, 400, 0.3f, Color.MediumVioletRed));
+            SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 800, 200, 0.3f, Color.GreenYellow));
+            SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 100, 600, 0.3f, Color.BlueViolet));
+            SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 800, 700, 0.3f, Color.White));
         }
 
         protected override void Update(GameTime gameTime)
