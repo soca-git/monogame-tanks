@@ -12,8 +12,8 @@ namespace Tanks
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private const int _screenWidth = 1200;
-        private const int _screenHeight = 1000;
+        private const int _screenWidth = 1000;
+        private const int _screenHeight = 800;
         private readonly Rectangle _backgroundSize = new Rectangle(0, 0, _screenWidth, _screenHeight);
 
         Tank Tank;
@@ -55,6 +55,8 @@ namespace Tanks
             MediaPlayer.Play(SongsManager.Get("background"));
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume *= 0.1f;
+
+            Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,7 +67,6 @@ namespace Tanks
             }
 
             // TODO: Add your update logic here
-            Tank = new Tank(TexturesManager.Get("tank"), 100, 100, 0.5f, Color.Wheat);
             Tank.Update(gameTime);
 
             base.Update(gameTime);
