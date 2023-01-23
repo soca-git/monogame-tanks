@@ -5,7 +5,7 @@ using Tanks.Utils;
 
 namespace Tanks.Sprites
 {
-    internal class Shell : Sprite
+    internal class Shell : Sprite, ICollidable
     {
         private const float _shellSpeed = 15;
 
@@ -25,7 +25,7 @@ namespace Tanks.Sprites
         public override void Update(GameTime gameTime)
         {
             UpdatePosition();
-            Explode(gameTime);
+            ExplodeIfMaximumRange(gameTime);
             UpdateExplosion(gameTime);
         }
 
@@ -37,11 +37,19 @@ namespace Tanks.Sprites
             }
         }
 
-        private void Explode(GameTime gameTime)
+        private void ExplodeIfMaximumRange(GameTime gameTime)
         {
             var trajectory = CurrentPosition() - _startPosition;
 
-            if (trajectory.Length() > _range && _explosion == null)
+            if (trajectory.Length() > _range)
+            {
+                Explode(gameTime);
+            }
+        }
+
+        public void Explode(GameTime gameTime)
+        {
+            if (_explosion == null)
             {
                 _explosion = new Explosion(TexturesManager.Get("explosion"), CurrentPosition().X, CurrentPosition().Y, 0.5f, Color.White);
                 _explosion.Explode(gameTime);
@@ -69,6 +77,11 @@ namespace Tanks.Sprites
         public bool HasExploded()
         {
             return _explosion != null && _explosion.HasExploded();
+        }
+
+        public float CollisionRadius()
+        {
+            return 1;
         }
     }
 }

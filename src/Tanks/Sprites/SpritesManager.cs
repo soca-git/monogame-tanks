@@ -1,35 +1,64 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Tanks.Sprites
 {
     internal static class SpritesManager
     {
-        private static readonly LinkedList<Shell> _firedRounds = new LinkedList<Shell>();
+        private static readonly LinkedList<Shell> _shells = new LinkedList<Shell>();
+        private static readonly LinkedList<Barrel> _barrels = new LinkedList<Barrel>();
 
         public static void Add(Shell shell)
         {
-            _firedRounds.AddFirst(shell);
+            _shells.AddFirst(shell);
+        }
+
+        public static void Add(Barrel barrel)
+        {
+            _barrels.AddFirst(barrel);
         }
 
         public static void Update(GameTime gameTime)
         {
+            HandleCollisions(gameTime);
+
             UpdateFiredRounds(gameTime);
+        }
+
+        private static void HandleCollisions(GameTime gameTime)
+        {
+            foreach(Shell shell in _shells)
+            {
+                foreach(Barrel barrel in _barrels)
+                {
+                    if (IsColliding(shell, barrel))
+                    {
+                        shell.Explode(gameTime);
+                    }
+                }
+            }
+        }
+
+        private static bool IsColliding(ICollidable a, ICollidable b)
+        {
+            float radius = a.CollisionRadius() + b.CollisionRadius();
+            return Vector2.DistanceSquared(a.CurrentPosition(), b.CurrentPosition()) < radius * radius;
         }
 
         private static void UpdateFiredRounds(GameTime gameTime)
         {
-            if (_firedRounds.Count > 0)
+            if (_shells.Count > 0)
             {
-                foreach (ISprite round in _firedRounds)
+                foreach (ISprite round in _shells)
                 {
                     round.Update(gameTime);
                 }
 
-                if (_firedRounds.Last.Value.HasExploded())
+                if (_shells.Last.Value.HasExploded())
                 {
-                    _firedRounds.RemoveLast();
+                    _shells.RemoveLast();
                 }
             }
         }
@@ -37,15 +66,27 @@ namespace Tanks.Sprites
         public static void Draw(SpriteBatch spriteBatch)
         {
             DrawFiredRounds(spriteBatch);
+            DrawBarrels(spriteBatch);
         }
 
         private static void DrawFiredRounds(SpriteBatch spriteBatch)
         {
-            if (_firedRounds.Count > 0)
+            if (_shells.Count > 0)
             {
-                foreach (ISprite round in _firedRounds)
+                foreach (ISprite round in _shells)
                 {
                     round.Draw(spriteBatch);
+                }
+            }
+        }
+
+        private static void DrawBarrels(SpriteBatch spriteBatch)
+        {
+            if (_barrels.Count > 0)
+            {
+                foreach (ISprite barrel in _barrels)
+                {
+                    barrel.Draw(spriteBatch);
                 }
             }
         }
