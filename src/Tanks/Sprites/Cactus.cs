@@ -18,6 +18,11 @@ namespace Tanks.Sprites
             return _width / 3;
         }
 
+        public Vector2 CurrentPosition()
+        {
+            return _position;
+        }
+
         public void Hit(GameTime gameTime)
         {
             _color = Color.DarkGray;

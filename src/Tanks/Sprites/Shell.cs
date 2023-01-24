@@ -39,7 +39,7 @@ namespace Tanks.Sprites
 
         private void ExplodeIfMaximumRange(GameTime gameTime)
         {
-            var trajectory = CurrentPosition() - _startPosition;
+            var trajectory = _position - _startPosition;
 
             if (trajectory.Length() > _range)
             {
@@ -51,7 +51,7 @@ namespace Tanks.Sprites
         {
             if (_explosion == null)
             {
-                _explosion = new Explosion(TexturesManager.Get("explosion"), CurrentPosition().X, CurrentPosition().Y, 0.5f, Color.White);
+                _explosion = new Explosion(TexturesManager.Get("explosion"), _position.X, _position.Y, 0.5f, Color.White);
                 _explosion.Explode(gameTime);
             }
         }
@@ -82,6 +82,11 @@ namespace Tanks.Sprites
         public float CollisionRadius()
         {
             return 1;
+        }
+
+        public Vector2 CurrentPosition()
+        {
+            return _position;
         }
 
         public void Hit(GameTime gameTime)

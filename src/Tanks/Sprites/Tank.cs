@@ -42,10 +42,10 @@ namespace Tanks.Sprites
             {
                 _fireTime = gameTime.TotalGameTime;
 
-                var orientation = CurrentOrientation().ToVector2();
-                var shellPosition = CurrentPosition() + (5 + _height / 2) * orientation;
+                var orientation = _orientation.ToVector2();
+                var shellPosition = _position + (5 + _height / 2) * orientation;
 
-                SpritesManager.Add(new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, CurrentOrientation()));
+                SpritesManager.Add(new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, _orientation));
             }
         }
 

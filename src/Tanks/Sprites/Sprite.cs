@@ -29,10 +29,6 @@ namespace Tanks.Sprites
             _origin = new Vector2(texture.Width / 2f, texture.Height / 2f); // Use original width & height!
         }
 
-        public Vector2 CurrentPosition() => _position;
-
-        public float CurrentOrientation() => _orientation;
-
         public virtual bool IsExpired() => _expired;
 
         public virtual void Draw(SpriteBatch spriteBatch)

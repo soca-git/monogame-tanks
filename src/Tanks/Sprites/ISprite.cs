@@ -9,8 +9,6 @@ namespace Tanks.Sprites
 
         void Draw(SpriteBatch spriteBatch);
 
-        Vector2 CurrentPosition();
-
         bool IsExpired();
     }
 }
