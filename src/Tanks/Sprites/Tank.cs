@@ -18,7 +18,17 @@ namespace Tanks.Sprites
         private TimeSpan _fireTime;
         private int _firedRounds;
 
-        public event EventHandler<FiredRoundEventArgs> OnFireRound;
+        #region Events
+        //public event EventHandler<FiredRoundEventArgs> OnFireRound; // using the standard event delegate EventHandler
+
+        public event EventHandler<FiredRoundEventArgs> OnFireRound; // using the standard event delegate EventHandler with optional custom <TEventArgs>
+
+        //public event FiredRoundDelegate OnFireRound; // using the delegate defined below
+        //public delegate void FiredRoundDelegate(int firedRounds);
+
+        //public event Action OnFireRound; // using the standard Action delegate
+        //public event Action<int, bool> OnFireRound; // using the standard Action delegate which accepts two parameters, one int and one bool
+        #endregion
 
         public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
