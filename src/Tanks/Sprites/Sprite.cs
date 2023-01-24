@@ -7,12 +7,12 @@ namespace Tanks.Sprites
     internal abstract class Sprite : ISprite
     {
         protected readonly Texture2D _texture;
-        protected readonly Color _color = Color.White;
         protected readonly float _width;
         protected readonly float _height;
         protected readonly float _scale;
         protected readonly Vector2 _origin;
 
+        protected Color _color = Color.White;
         protected Vector2 _position;
         protected float _orientation;
         protected bool _expired;

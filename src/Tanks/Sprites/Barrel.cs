@@ -21,6 +21,7 @@ namespace Tanks.Sprites
 
         public void Hit(GameTime gameTime)
         {
+            _color = Color.OrangeRed;
         }
     }
 }
