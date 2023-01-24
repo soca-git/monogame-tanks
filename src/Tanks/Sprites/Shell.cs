@@ -74,9 +74,9 @@ namespace Tanks.Sprites
             }
         }
 
-        public bool HasExploded()
+        public override bool IsExpired()
         {
-            return _explosion != null && _explosion.HasExploded();
+            return _explosion != null && _explosion.IsExpired();
         }
 
         public float CollisionRadius()

@@ -11,7 +11,6 @@ namespace Tanks.Sprites
         private readonly SoundEffect soundEffect = SoundEffectsManager.Get("explosion");
         
         private TimeSpan _explosionStartTime;
-        private bool _exploded;
 
         public Explosion(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
@@ -22,7 +21,7 @@ namespace Tanks.Sprites
         {
             if (gameTime.TotalGameTime - _explosionStartTime > soundEffect.Duration)
             {
-                _exploded = true;
+                _expired = true;
             }
         }
 
@@ -30,11 +29,6 @@ namespace Tanks.Sprites
         {
             _explosionStartTime = gameTime.TotalGameTime;
             soundEffect.Play();
-        }
-
-        public bool HasExploded()
-        {
-            return _exploded;
         }
     }
 }

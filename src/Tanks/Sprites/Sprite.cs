@@ -15,6 +15,7 @@ namespace Tanks.Sprites
 
         protected Vector2 _position;
         protected float _orientation;
+        protected bool _expired;
         
         public Vector2 Origin => _origin;
 
@@ -35,6 +36,8 @@ namespace Tanks.Sprites
         public Vector2 CurrentPosition() => _position;
 
         public float CurrentOrientation() => _orientation;
+
+        public virtual bool IsExpired() => _expired;
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
