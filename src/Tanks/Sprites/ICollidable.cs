@@ -7,5 +7,7 @@ namespace Tanks.Sprites
         float CollisionRadius();
 
         Vector2 CurrentPosition();
+
+        void Hit(GameTime gameTime);
     }
 }

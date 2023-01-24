@@ -47,7 +47,7 @@ namespace Tanks.Sprites
             }
         }
 
-        public void Explode(GameTime gameTime)
+        private void Explode(GameTime gameTime)
         {
             if (_explosion == null)
             {
@@ -82,6 +82,11 @@ namespace Tanks.Sprites
         public float CollisionRadius()
         {
             return 1;
+        }
+
+        public void Hit(GameTime gameTime)
+        {
+            Explode(gameTime);
         }
     }
 }

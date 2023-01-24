@@ -18,5 +18,9 @@ namespace Tanks.Sprites
         {
             return _width / 3;
         }
+
+        public void Hit(GameTime gameTime)
+        {
+        }
     }
 }
