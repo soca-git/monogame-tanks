@@ -9,4 +9,7 @@
 - [NeonShooter Tutorial Series](https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559)
 - [MonoGame Samples](https://github.com/MonoGame/MonoGame.Samples)
 
+- [CodeMonkey Interfaces Video](https://youtu.be/MZOrGXk4XFI?list=PLahuBarhJ6ZYVRf99mhdrG13ZrhkgdxGk)
+- [CodeMonkey Events Video](https://youtu.be/OuZrhykVytg?list=PLahuBarhJ6ZYVRf99mhdrG13ZrhkgdxGk)
+
 ---
