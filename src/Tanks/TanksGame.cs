@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System;
 using System.Diagnostics;
 using Tanks.ContentManagers;
 using Tanks.Sprites;
@@ -110,10 +109,10 @@ namespace Tanks
             base.Draw(gameTime);
         }
 
-        private void UpdateRoundsFired(object sender, EventArgs args)
+        private void UpdateRoundsFired(object sender, FiredRoundEventArgs args)
         {
-            _roundsFired++;
-            Debug.WriteLine("Round fired!");
+            _roundsFired = args.FiredRounds;
+            Debug.WriteLine($"{args.FiredRounds} round(s)s fired!");
         }
     }
 }

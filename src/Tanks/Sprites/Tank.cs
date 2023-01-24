@@ -16,8 +16,9 @@ namespace Tanks.Sprites
 
         private readonly float _orientationOffset = -90f.ToRadians();
         private TimeSpan _fireTime;
+        private int _firedRounds;
 
-        public event EventHandler OnFireRound;
+        public event EventHandler<FiredRoundEventArgs> OnFireRound;
 
         public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
@@ -49,7 +50,8 @@ namespace Tanks.Sprites
 
                 SpritesManager.Add(new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, _orientation));
 
-                OnFireRound?.Invoke(this, EventArgs.Empty);
+                _firedRounds++;
+                OnFireRound?.Invoke(this, new FiredRoundEventArgs { FiredRounds = _firedRounds });
             }
         }
 
@@ -57,5 +59,10 @@ namespace Tanks.Sprites
         {
             spriteBatch.Draw(_texture, _position, null, _color, _orientation.ToRadians() + _orientationOffset, _origin, _scale, SpriteEffects.None, 0);
         }
+    }
+
+    public class FiredRoundEventArgs : EventArgs
+    {
+        public int FiredRounds { get; set; }
     }
 }
