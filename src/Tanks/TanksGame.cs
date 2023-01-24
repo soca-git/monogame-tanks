@@ -94,11 +94,8 @@ namespace Tanks
             // Draw
             _spriteBatch.Draw(TexturesManager.Get("background"), _backgroundSize, Color.White);
 
-            if (Tank != null)
-            {
-                Tank.Draw(_spriteBatch);
-            }
             SpritesManager.Draw(_spriteBatch);
+            Tank.Draw(_spriteBatch);
 
             _spriteBatch.DrawString(FontsManager.Get("default"), "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
 
