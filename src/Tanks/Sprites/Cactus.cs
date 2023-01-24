@@ -5,7 +5,8 @@ namespace Tanks.Sprites
 {
     internal class Cactus : Sprite, ICollidable
     {
-        public Cactus(Texture2D texture, float startX, float startY, float scale, Color color) : base(texture, startX, startY, scale, color)
+        public Cactus(Texture2D texture, float startX, float startY, float scale, Color color)
+            : base(texture, startX, startY, scale, color)
         {
         }
 
