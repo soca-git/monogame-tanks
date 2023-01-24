@@ -48,6 +48,7 @@ namespace Tanks
             TexturesManager.Add("explosion", "Explosion_C", Content);
             TexturesManager.Add("marker", "Markup_01", Content);
             TexturesManager.Add("barrel", "Barell_01", Content);
+            TexturesManager.Add("cactus", "Cactus_03", Content);
 
             SoundEffectsManager.Add("explosion", "explosion04", Content);
 
@@ -63,6 +64,10 @@ namespace Tanks
             SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 800, 200, 0.3f, Color.GreenYellow));
             SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 100, 600, 0.3f, Color.BlueViolet));
             SpritesManager.Add(new Barrel(TexturesManager.Get("barrel"), 800, 700, 0.3f, Color.White));
+
+            SpritesManager.Add(new Cactus(TexturesManager.Get("cactus"), 100, 300, 0.3f, Color.White));
+            SpritesManager.Add(new Cactus(TexturesManager.Get("cactus"), 300, 700, 0.3f, Color.White));
+            SpritesManager.Add(new Cactus(TexturesManager.Get("cactus"), 600, 600, 0.3f, Color.White));
         }
 
         protected override void Update(GameTime gameTime)

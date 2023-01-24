@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace Tanks.Sprites
@@ -9,6 +8,7 @@ namespace Tanks.Sprites
     {
         private static readonly LinkedList<Shell> _shells = new LinkedList<Shell>();
         private static readonly LinkedList<Barrel> _barrels = new LinkedList<Barrel>();
+        private static readonly LinkedList<Cactus> _cacti = new LinkedList<Cactus>();
 
         public static void Add(Shell shell)
         {
@@ -18,6 +18,11 @@ namespace Tanks.Sprites
         public static void Add(Barrel barrel)
         {
             _barrels.AddFirst(barrel);
+        }
+
+        public static void Add(Cactus cactus)
+        {
+            _cacti.AddFirst(cactus);
         }
 
         public static void Update(GameTime gameTime)
@@ -67,6 +72,7 @@ namespace Tanks.Sprites
         {
             DrawFiredRounds(spriteBatch);
             DrawBarrels(spriteBatch);
+            DrawCacti(spriteBatch);
         }
 
         private static void DrawFiredRounds(SpriteBatch spriteBatch)
@@ -87,6 +93,17 @@ namespace Tanks.Sprites
                 foreach (ISprite barrel in _barrels)
                 {
                     barrel.Draw(spriteBatch);
+                }
+            }
+        }
+
+        private static void DrawCacti(SpriteBatch spriteBatch)
+        {
+            if (_cacti.Count > 0)
+            {
+                foreach (ISprite cactus in _cacti)
+                {
+                    cactus.Draw(spriteBatch);
                 }
             }
         }
