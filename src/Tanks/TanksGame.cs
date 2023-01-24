@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
+using System.Diagnostics;
 using Tanks.ContentManagers;
 using Tanks.Sprites;
 
@@ -17,6 +19,7 @@ namespace Tanks
         private readonly Rectangle _backgroundSize = new Rectangle(0, 0, _screenWidth, _screenHeight);
 
         Tank Tank;
+        private int _roundsFired;
 
         public TanksGame()
         {
@@ -68,6 +71,8 @@ namespace Tanks
             SpritesManager.Add(new Cactus(TexturesManager.Get("cactus"), 100, 300, 0.3f, Color.White));
             SpritesManager.Add(new Cactus(TexturesManager.Get("cactus"), 300, 700, 0.3f, Color.White));
             SpritesManager.Add(new Cactus(TexturesManager.Get("cactus"), 600, 600, 0.3f, Color.White));
+
+            Tank.OnFireRound += UpdateRoundsFired;
         }
 
         protected override void Update(GameTime gameTime)
@@ -97,11 +102,18 @@ namespace Tanks
             SpritesManager.Draw(_spriteBatch);
             Tank.Draw(_spriteBatch);
 
-            _spriteBatch.DrawString(FontsManager.Get("default"), "Tanks very much!", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
+            _spriteBatch.DrawString(FontsManager.Get("default"), "Tanks very much!", new Vector2(_screenWidth - 125, _screenHeight - 20), Color.Aquamarine);
+            _spriteBatch.DrawString(FontsManager.Get("default"), $"Rounds fired: {_roundsFired}", new Vector2(5, _screenHeight - 20), Color.Aquamarine);
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void UpdateRoundsFired(object sender, EventArgs args)
+        {
+            _roundsFired++;
+            Debug.WriteLine("Round fired!");
         }
     }
 }

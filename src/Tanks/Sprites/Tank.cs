@@ -17,6 +17,8 @@ namespace Tanks.Sprites
         private readonly float _orientationOffset = -90f.ToRadians();
         private TimeSpan _fireTime;
 
+        public event EventHandler OnFireRound;
+
         public Tank(Texture2D texture, float startX, float startY, float scale, Color color)
             : base(texture, startX, startY, scale, color)
         {
@@ -46,6 +48,8 @@ namespace Tanks.Sprites
                 var shellPosition = _position + (5 + _height / 2) * orientation;
 
                 SpritesManager.Add(new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, _orientation));
+
+                OnFireRound?.Invoke(this, EventArgs.Empty);
             }
         }
 
