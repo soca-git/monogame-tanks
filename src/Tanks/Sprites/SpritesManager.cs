@@ -8,6 +8,7 @@ namespace Tanks.Sprites
     internal static class SpritesManager
     {
         private static List<ISprite> _sprites = new List<ISprite>();
+        private static List<ICollidable> _collidables = new List<ICollidable>();
 
         public static void Add(ISprite sprite)
         {
@@ -16,20 +17,21 @@ namespace Tanks.Sprites
 
         public static void Update(GameTime gameTime)
         {
-            //HandleCollisions(gameTime);
+            HandleCollisions(gameTime);
 
             UpdateSprites(gameTime);
         }
 
         private static void HandleCollisions(GameTime gameTime)
         {
-            foreach(Shell shell in _sprites)
+            foreach(ICollidable a in _collidables)
             {
-                foreach(Barrel barrel in _sprites)
+                foreach (ICollidable b in _collidables)
                 {
-                    if (IsColliding(shell, barrel))
+                    if (a != b && IsColliding(a, b))
                     {
-                        shell.Explode(gameTime);
+                        a.Hit(gameTime);
+                        b.Hit(gameTime);
                     }
                 }
             }
@@ -49,6 +51,7 @@ namespace Tanks.Sprites
             }
 
             _sprites = _sprites.Where(sprite => !sprite.IsExpired()).ToList();
+            _collidables = _sprites.Where(sprite => sprite is ICollidable).Cast<ICollidable>().ToList();
         }
 
         public static void Draw(SpriteBatch spriteBatch)
