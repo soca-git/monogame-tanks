@@ -11,8 +11,6 @@ namespace Tanks.Sprites
 
         Vector2 CurrentPosition();
 
-        Rectangle CurrentBox();
-
         bool IsExpired();
     }
 }

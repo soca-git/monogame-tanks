@@ -16,8 +16,6 @@ namespace Tanks.Sprites
         protected Vector2 _position;
         protected float _orientation;
         protected bool _expired;
-        
-        public Vector2 Origin => _origin;
 
         public Sprite(Texture2D texture, float startX, float startY, float scale, Color color)
         {
@@ -30,8 +28,6 @@ namespace Tanks.Sprites
             _position = new Vector2(startX, startY);
             _origin = new Vector2(texture.Width / 2f, texture.Height / 2f); // Use original width & height!
         }
-
-        public Rectangle CurrentBox() => new Rectangle((int)(_position.X - _width / 2), (int)(_position.Y - _height / 2), (int)_width, (int)_height);
 
         public Vector2 CurrentPosition() => _position;
 
