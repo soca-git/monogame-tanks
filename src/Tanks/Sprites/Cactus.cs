@@ -11,7 +11,6 @@ namespace Tanks.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            throw new System.NotImplementedException();
         }
 
         public float CollisionRadius()
