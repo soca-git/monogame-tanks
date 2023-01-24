@@ -109,10 +109,10 @@ namespace Tanks
             base.Draw(gameTime);
         }
 
-        private void UpdateRoundsFired(object sender, FiredRoundEventArgs args)
+        private void UpdateRoundsFired(object sender, int firedRounds)
         {
-            _roundsFired = args.FiredRounds;
-            Debug.WriteLine($"{args.FiredRounds} round(s)s fired!");
+            _roundsFired = firedRounds;
+            Debug.WriteLine($"{sender} has fired {firedRounds} round(s)!");
         }
     }
 }

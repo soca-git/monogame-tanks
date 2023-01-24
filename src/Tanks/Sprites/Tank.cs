@@ -18,10 +18,21 @@ namespace Tanks.Sprites
         private TimeSpan _fireTime;
         private int _firedRounds;
 
-        #region Events
-        //public event EventHandler<FiredRoundEventArgs> OnFireRound; // using the standard event delegate EventHandler
+        public event Action<object, int> OnFireRound;
 
-        public event EventHandler<FiredRoundEventArgs> OnFireRound; // using the standard event delegate EventHandler with optional custom <TEventArgs>
+        #region MoreEventDeclarations
+        //public event EventHandler<FiredRoundEventArgs> OnFireRound; // using the standard event delegate EventHandler
+        //public event EventHandler<FiredRoundEventArgs> OnFireRound; // using the standard event delegate EventHandler with optional custom <TEventArgs>
+
+        /// <summary>
+        /// EventArgs is used to bundle together arguments to an event.
+        /// Here, we create the subclass FiredRoundEventArgs to specify additional arguments passed into the event.
+        /// </summary>
+        //public class FiredRoundEventArgs : EventArgs
+        //{
+        //    public int FiredRounds { get; set; }
+        //}
+
 
         //public event FiredRoundDelegate OnFireRound; // using the delegate defined below
         //public delegate void FiredRoundDelegate(int firedRounds);
@@ -61,7 +72,7 @@ namespace Tanks.Sprites
                 SpritesManager.Add(new Shell(TexturesManager.Get("shell"), shellPosition.X, shellPosition.Y, 0.5f, Color.White, 400, _orientation));
 
                 _firedRounds++;
-                OnFireRound?.Invoke(this, new FiredRoundEventArgs { FiredRounds = _firedRounds });
+                OnFireRound?.Invoke(this, _firedRounds);
             }
         }
 
@@ -69,10 +80,5 @@ namespace Tanks.Sprites
         {
             spriteBatch.Draw(_texture, _position, null, _color, _orientation.ToRadians() + _orientationOffset, _origin, _scale, SpriteEffects.None, 0);
         }
-    }
-
-    public class FiredRoundEventArgs : EventArgs
-    {
-        public int FiredRounds { get; set; }
     }
 }
